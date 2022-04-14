@@ -19,6 +19,8 @@ public class Main {
     
     
     /**
+     * llama las funciones primerOrigen y segundoOrigen
+     * 
      * @param args the command line arguments
      */
     public static void main(String[] args) { 
@@ -26,14 +28,7 @@ public class Main {
         FlujoDeDatos fdd = new FlujoDeDatos();
         
         s.primerOrigen();
-        s.segundoOrigen();
-        
-        
-        
-        //fdd.leer();
-        
-        
-        
+        s.segundoOrigen();     
     }
     
 }

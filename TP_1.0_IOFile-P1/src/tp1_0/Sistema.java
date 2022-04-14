@@ -26,6 +26,7 @@ public class Sistema {
     FlujoDeDatos fdd;
     File archivo;
     
+    
     /**
      * 
      */
@@ -33,6 +34,7 @@ public class Sistema {
         ps = new PrintStream(System.out);
         fdd = new FlujoDeDatos();
     }
+    
     
     /**
      * contiene el primer origen 
@@ -73,43 +75,58 @@ public class Sistema {
      * @param datos 
      */
     public void calculo(int[] datos) {
-        int numero1[] = new int[5];
-        int numero2[] = new int[5];
-        int resultado[] = new int[5];
+        float numero1[] = new float[5];
+        float numero2[] = new float[5];
+        float resultado[] = new float[5];
         
-        for (int i = 0; i < 4; i++) {
-            numero1[i] = datos[i];
-            numero2[i] = datos[i + 1]-3;
-            resultado[i] = numero1[i]/numero2[i];
-            System.out.println(numero1[i] + " dividido " + numero2[i] + " es " + resultado[i]);
-            
-        }
+        try{
+            for (int i = 0; i < 4; i++) {
+                numero1[i] = datos[i];
+                numero2[i] = datos[i + 1]-3;
+                if (numero2[i] == 0){
+                    throw new ArithmeticException();
+                }//if
+                else{
+                    resultado[i] = numero1[i]/numero2[i];
+                    System.out.println(numero1[i] + " dividido " + numero2[i] + " es " + resultado[i]);
+                    
+                }//else
+            }//for
+            archivoResultado( numero1, numero2, resultado);  
+        }//try
+            catch (ArithmeticException | NullPointerException ex) {
+                archivoError(numero1, numero2);
+        }//catch
+        
+    }//calculo()
     
-        
-
-    }
+    
     
     /**
-     * NO FUNCIONA 
+     * instancia el File en el que se va a guardar el error
+     * llama a la funcion errorTxt
      * 
-     * instancia el File en el que se va a guardar el resultado
+     * @param numero1
+     * @param numero2 
+     */
+    public void archivoError(float[] numero1, float[] numero2){
+       File archivoError = new File("error.txt");
+       fdd.errorTxt(archivoError, numero1, numero2);
+    }
+    
+    
+    /**
+     *instancia el File en el que se va a guardar el resultado
+     * llama a la funcion resultadosTxt
      * 
      * @param numero1
      * @param numero2
      * @param resultado 
      */
-    public void archivoResultado(int[] numero1, int[] numero2, int[] resultado){
+    public void archivoResultado(float[] numero1, float[] numero2, float[] resultado){
        File archivoResultado = new File("resultado.txt");
-       FlujoDeDatos fdd = new FlujoDeDatos();
-       
+       fdd.resultadosTxt(archivoResultado, numero1, numero2, resultado);
     }
-
+    
 
 }
-    
-       
-    
-    
-    
-
-
