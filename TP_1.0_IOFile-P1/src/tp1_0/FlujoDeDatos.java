@@ -19,7 +19,6 @@ import java.util.logging.Logger;
 public class FlujoDeDatos {
     
     
-    
     /**
      * guarda los valores del primer origen en un archivo 
      * 
@@ -27,6 +26,7 @@ public class FlujoDeDatos {
      * @param aux 
      */
     public void printVectTxt(File archivoOrigen1, int[] aux){
+        archivoOrigen1.delete();
         FileWriter fw = null;
         PrintWriter pw = null;
         try {
@@ -60,8 +60,6 @@ public class FlujoDeDatos {
     
     
     /**
-     * NO FUNCIONA
-     * 
      * Crea el archivo donde se guardan los resultados y los guarda 
      * 
      * @param archivoResultado
@@ -69,7 +67,8 @@ public class FlujoDeDatos {
      * @param numero2
      * @param resultado 
      */
-    public void resultadosTxt(File archivoResultado, int[] numero1, int[] numero2, int[] resultado){
+    public void resultadosTxt(File archivoResultado, float[] numero1, float[] numero2, float[] resultado){
+        archivoResultado.delete();
         FileWriter fw = null;
         PrintWriter pw = null;
         try {
@@ -81,7 +80,7 @@ public class FlujoDeDatos {
             pw = new PrintWriter(fw);
 
             for (int i = 0; i < 4; i++) {
-                pw.println(numero1[i] + " dividido " + numero2[i] + " es " + resultado[i]);
+                pw.println(numero1[i] + " / " + numero2[i] + " = " + resultado[i]);
             }
         } catch (IOException ex) {
             Logger.getLogger(FlujoDeDatos.class.getName()).log(Level.SEVERE, null, ex);
@@ -99,8 +98,47 @@ public class FlujoDeDatos {
                 Logger.getLogger(FlujoDeDatos.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+    
+    
+    /**
+     * crea el archivo donde se guardan los errores y los guarda
+     * 
+     * @param archivoError
+     * @param numero1
+     * @param numero2 
+     */
+    public void errorTxt(File archivoError, float[] numero1, float[] numero2){
+        archivoError.delete();
+        FileWriter fw = null;
+        PrintWriter pw = null;
+        try {
+            if(archivoError.exists()){
+                archivoError.createNewFile();
+            }
 
+            fw = new FileWriter(archivoError, true);
+            pw = new PrintWriter(fw);
 
+            for (int i = 0; i < 4; i++) {
+                pw.println(numero1[i] + " / " + numero2[i] + " = error matematico");
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(FlujoDeDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }finally {
+            try {
+                if (pw != null) {
+                    pw.close();
+                }
+
+                if (fw != null) {
+                    fw.close();
+                }
+
+            } catch (IOException ex) {
+                Logger.getLogger(FlujoDeDatos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
     
@@ -126,7 +164,5 @@ public class FlujoDeDatos {
         
     }
     
-    
-    
-    
+        
 }
