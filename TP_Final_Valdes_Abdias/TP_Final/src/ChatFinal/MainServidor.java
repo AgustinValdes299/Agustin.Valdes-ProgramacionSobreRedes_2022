@@ -3,6 +3,8 @@ package ChatFinal;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -40,13 +42,29 @@ public class MainServidor {
 
     public static void main(String[] args) {
 
+        try {
+
+            LogFile log = new LogFile("", "logFile.log");
+
+            System.setErr(
+                    new PrintStream(
+                            new FileOutputStream(
+                                    new File("logFile.log"), true), true)
+            );
+
+            System.out.println("INICIANDO SERVIDOR");
+            log.setMsg("El servidor se ha iniciado servidor Iniciado correctamente");
+            log.run();
+
+            Servidor inicio = new Servidor();
+            inicio.setName("SERVIDOR");
+
+            inicio.start();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MainServidor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         PrintStream ps = new PrintStream(System.out);
-
-        ps.println("INICIANDO SERVIDOR");
-        Servidor inicio = new Servidor();
-        inicio.setName("SERVIDOR");
-
-        inicio.start();
     }
 } // fin class principal
 
@@ -91,6 +109,7 @@ class Cliente implements Runnable {
         String cli = "";
 
         while (sock.isConnected() && this.isConected) {
+            
             try {
                 msgRecibido = disCliente.readUTF();
                 //    mensaje#cliente
@@ -240,7 +259,7 @@ class Servidor extends Thread {
             ps = new PrintStream(System.out);
             disCliente = null;
             dosCliente = null;
-
+            
             server = new ServerSocket(PUERTO);
 
             Thread verificarLista = new Thread(
@@ -353,7 +372,7 @@ class UsuarioConecBD implements Runnable {
                 if (insertUser.executeUpdate() == 1) {
                     System.out.println(
                             MainServidor.ANSI_GREEN
-                            + "Usuario '" + nickname + "' Agregado c!"
+                            + "Usuario '" + nickname + "' Agregado correctamente!"
                     );
                 } else {
                     System.out.println(

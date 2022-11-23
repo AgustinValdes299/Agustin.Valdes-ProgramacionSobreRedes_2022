@@ -10,7 +10,7 @@ public class MiCipher {
 
     public SecureRandom sr = new SecureRandom();
 
-    public String encriptar(String clave, byte[] iv, String value) {
+    public static String encriptar(String clave, byte[] iv, String value) {
         try {
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
             SecretKeySpec sks = new SecretKeySpec(clave.getBytes("UTF-8"), "AES");
@@ -24,7 +24,7 @@ public class MiCipher {
         return null;
     }
 
-    public String decriptar(String clave, byte[] iv, String encriptado) {
+    public static String decriptar(String clave, byte[] iv, String encriptado) {
         try {
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
             SecretKeySpec sks = new SecretKeySpec(clave.getBytes("UTF-8"), "AES");
